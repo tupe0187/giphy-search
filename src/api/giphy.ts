@@ -1,33 +1,26 @@
-import axios from 'axios';
-import { GiphyApiResponse } from '../types/giphy';
+/* eslint-disable camelcase */
 
-// Axios instance for Giphy API
-const giphyApi = axios.create({
-  baseURL: 'https://api.giphy.com/v1/gifs',
-  timeout: 5000, // timeout of 5 secs 
-});
+ import api from './api';
+ import { GiphyApiResponse } from '../types/giphy';
 
-// Function to search GIFs
-export const searchGifs = async (query: string): Promise<GiphyApiResponse> => {
-  try {
-    const apiKey = process.env.REACT_APP_GIPHY_API_KEY; 
+ export const searchGifs = async (query: string): Promise<GiphyApiResponse> => {
+   try {
+     const apiKey = process.env.REACT_APP_GIPHY_API_KEY;
 
-    if (!apiKey) {
-      throw new Error('Giphy API Key is missing');
-    }
+     if (!apiKey) {
+       throw new Error('Giphy API Key is missing');
+     }
+     const response = await api.get<GiphyApiResponse>('/search', {
+       params: {
+         api_key: apiKey,
+         q: query,
+         limit: 24,
+       },
+     });
 
-    const response = await giphyApi.get('/search', {
-      params: {
-        api_key: apiKey,
-        q: query,
-        limit: 24, // Fetch 24 results
-      },
-    });
-
-    return response.data as GiphyApiResponse;
-    
-  } catch (error) {
-    console.error('Error fetching GIFs:', error);
-    throw error;
-  }
+     return response.data;
+   } catch (error) {
+     console.error('Error fetching GIFs:', error);
+     throw error;
+   }
 };
