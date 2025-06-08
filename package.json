@@ -33,7 +33,7 @@
   },
   "bin": "./scripts/bin.js",
   "scripts": {
-   "build": "cross-env NODE_OPTIONS=--max_old_space_size=8192 GENERATE_SOURCEMAP=false react-scripts build",
+    "build": "cross-env NODE_OPTIONS=--max_old_space_size=8192 GENERATE_SOURCEMAP=false react-scripts build",
     "start": "react-scripts start",
     "deploy:staging": "npm run build && npx serverless deploy --verbose --stage staging --region ap-southeast-2 --aws-profile baseline-webpage",
     "remove:staging": "npx serverless remove --stage staging --region ap-southeast-2 --aws-profile baseline-webpage",
@@ -46,6 +46,7 @@
     "lint": "npx eslint --ext .tsx,.ts src/"
   },
   "dependencies": {
+    "axios": "^1.9.0",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
@@ -54,6 +55,7 @@
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "13.4.0",
     "@testing-library/user-event": "13.5.0",
+    "@types/axios": "^0.14.4",
     "@types/node": "20.2.6",
     "@types/react": "18.2.9",
     "@types/react-dom": "18.2.4",
