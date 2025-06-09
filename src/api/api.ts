@@ -1,6 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
-/* eslint-disable camelcase */ // still need this for params!
 
 const axiosParams = {
   baseURL: process.env.REACT_APP_GIPHY_DEVELOPERS_API_URL,
