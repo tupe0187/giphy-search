@@ -1,53 +1,63 @@
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-  margin: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1200px;
 }
 
 .card {
-  background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #1e293b;
+  border-radius: 12px;
   overflow: hidden;
-  transition: transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 400px; /* 💡 Fixed card height */
 }
 
 .card:hover {
-  transform: scale(1.03);
+  transform: translateY(-10px);
 }
 
 .image {
   width: 100%;
-  height: auto;
+  height: 250px;
+  flex-grow: 1; /* 💡 Image will grow to take available space */
+  object-fit: cover;
 }
 
 .actions {
   display: flex;
   flex-direction: column;
-  padding: 0.5rem;
+  padding: 1rem;
+  width: 100%;
+  gap: 0.5rem;
   align-items: center;
+  margin-top: auto; /* 💡 Push actions to bottom */
 }
 
 .button {
-  margin-bottom: 0.5rem;
-  padding: 0.5rem;
-  width: 80%;
-  font-size: 0.9rem;
-  background-color: #0d6efd;
-  color: white;
+  padding: 0.5rem 1rem;
+  background-color: #22c55e;
+  color: #0f172a;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
+  font-weight: 600;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 80%;
+  text-align: center;
 }
 
 .button:hover {
-  background-color: #0b5ed7;
+  background-color: #16a34a;
 }
 
 .link {
   font-size: 0.9rem;
-  color: #0d6efd;
+  color: #38bdf8;
   text-decoration: none;
 }
 
