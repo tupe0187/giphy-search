@@ -5,6 +5,16 @@ set -eu -o pipefail
 
 echo "Begin: Setup AWS"
 
+# Detect branch name safely
+if [ -n "${BITBUCKET_BRANCH:-}" ]; then
+  BRANCH_NAME="$BITBUCKET_BRANCH"
+else
+  # GitHub Actions fallback
+  BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF##*/}}"
+fi
+
+echo "Current Branch: [$BRANCH_NAME]"
+
 # Only install AWS CLI if deployed from Bitbucket
 if [ "${BITBUCKET_BRANCH:-}" ]; then
   curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -22,18 +32,17 @@ echo "AWS Region: [$AWS_REGION]"
 export AWS_HOME="/usr/local/bin/aws"
 export PATH="${AWS_HOME:-}:$PATH"
 
-if [ "$AWS_ACCESS_KEY_ID" == "" ] || [ "$AWS_SECRET_ACCESS_KEY" == "" ]; then
-  # These can be used if master and prod are in different accounts or the IAM roles have different access
-  if [ "$BITBUCKET_BRANCH" == "prod" ]; then
-    export AWS_ACCESS_KEY_ID="${PROD_AWS_ACCOUNT_ACCESS_KEY_ID}"
-    export AWS_SECRET_ACCESS_KEY="${PROD_AWS_ACCOUNT_SECRET_ACCESS_KEY}"
+if [ -z "${AWS_ACCESS_KEY_ID:-}" ] || [ -z "${AWS_SECRET_ACCESS_KEY:-}" ]; then
+  if [ "$BRANCH_NAME" == "prod" ]; then
+    export AWS_ACCESS_KEY_ID="${PROD_AWS_ACCOUNT_ACCESS_KEY_ID:-}"
+    export AWS_SECRET_ACCESS_KEY="${PROD_AWS_ACCOUNT_SECRET_ACCESS_KEY:-}"
   else
-    export AWS_ACCESS_KEY_ID="${NON_AWS_ACCOUNT_ACCESS_KEY_ID}"
-    export AWS_SECRET_ACCESS_KEY="${NON_AWS_ACCOUNT_SECRET_ACCESS_KEY}"
+    export AWS_ACCESS_KEY_ID="${NON_AWS_ACCOUNT_ACCESS_KEY_ID:-}"
+    export AWS_SECRET_ACCESS_KEY="${NON_AWS_ACCOUNT_SECRET_ACCESS_KEY:-}"
   fi
 fi
 
-if [ "$AWS_ACCESS_KEY_ID" == "" ] || [ "$AWS_SECRET_ACCESS_KEY" == "" ]; then
+if [ -z "${AWS_ACCESS_KEY_ID:-}" ] || [ -z "${AWS_SECRET_ACCESS_KEY:-}" ]; then
   echo "Warning: No AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY provided."
   echo "You will not be able to deploy some of the AWS components of the environment."
 fi
