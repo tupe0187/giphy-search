@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css'; // We'll keep the default App.css or you can clean it later
+import './App.css';
 import SearchBar from './components/SearchBar/SearchBar';
 import GifGrid from './components/GifGrid/GifGrid';
 import Loader from './components/Loader/Loader';

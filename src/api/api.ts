@@ -6,7 +6,6 @@ const axiosParams = {
   timeout: 5000,
 };
 
-//console.log('Base URL:', process.env.GIPHY_DEVELOPERS_API_URL);
 
 const axiosInstance = axios.create(axiosParams);
 
